@@ -1,0 +1,60 @@
+import java.io.IOException;
+import java.net.*;
+import java.nio.file.Files;
+import java.util.Scanner;
+import java.nio.file.Paths;
+public class Classe {
+
+	public static void main(String[] args) throws MalformedURLException, IOException, InterruptedException {
+		Scanner scanner = new Scanner(System.in);
+		String raumname;
+		String nickname;
+		System.out.println("Welchen Raum wollen Sie beitreten?"); // Fragt den Raum ab und speichert ihn ab
+		raumname = scanner.next();
+		System.out.println("Wie möchten sie genannt werden?"); // Fragt den Namen ab und speichert ihn ab
+		nickname = scanner.next();
+		System.out.println(raumname);
+		System.out.println("-----------");
+		System.out.println("Bekomme Text...");
+		//Jetzt werde ich über die url den aktuellen Inhalt des Raumes abfragen
+		String url = ("http://public-chat-api.glitch.me/get?room="+raumname);
+		Files.copy(
+				new URL(url).openStream(),
+				Paths.get(raumname));
+		
+		//Damit man es mehrmals machen kann füge ich eine loop hinzu
+		for (int i = 0; i == 0; i = i + 0) {
+			//Den Rauminhalt ausgeben
+			System.out.println(new String(Files.readAllBytes(Paths.get(raumname))));
+			//Anbieten etwas einzutippen um es auch zu dem Raum hinzuzufügen
+			System.out.println("-----------");
+			System.out.println("Tippen Sie jetzt bitte ihre Nachricht ein. Geben sie exit ein um das Programm ordnungsgemäß zu verlassen oder reload ein um die Datei erneut zu laden"); // Fragt den Raum ab und speichert ihn ab
+			//Bekommt den Text den man abschicken möchte
+			String text2 = scanner.next();
+			text2 += scanner.nextLine();
+			//Leerzeichen Ersetzen damit es keine Probleme gibt
+			String text = text2.replaceAll("\\s+","%20");
+			if (text.equals("exit")) {
+				System.out.println("Verlassen...");
+	            Files.deleteIfExists(Paths.get(raumname));
+	            Runtime.getRuntime().exec("exit");
+				}
+				else {
+			//Da ich den Rest in Python gemacht habe, muss ich hier nur den Stream öffnen und dann erscheint die Nachricht im Chatroom. Habe keinen anderen Weg auf die schnelle gefunden um eine URL im Hintergrund aufzurufen (;
+			String send_to_api = ("http://public-chat-api.glitch.me/send?room="+raumname+"&author="+nickname+"&text="+text); 
+			Files.copy(
+					new URL(send_to_api).openStream(),
+					Paths.get("temp"));
+            		Files.deleteIfExists(Paths.get("temp")); 
+				}
+			Thread.sleep(500);
+			//danach wird die neue Version geladen und die alte gelöscht
+            Files.deleteIfExists(Paths.get(raumname)); 
+			Files.copy(
+					new URL(url).openStream(),
+					Paths.get(raumname));
+		}
+	}
+}
+
+	
