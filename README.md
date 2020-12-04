@@ -3,6 +3,7 @@ Here are all clients for [Anon-Chat-Server](https://github.com/Braslerl/Anon-Cha
 **Feel free to submit your own client, I'll test and link your repo.**
 All the clients use this server: [http://public-chat-api.glitch.me/](http://public-chat-api.glitch.me/)
 Hosted on glitch, maybe it need a time until it "wakes up" again. (;
+Sample ID file is [here](id).
 
 ## Java
 
