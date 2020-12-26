@@ -1,0 +1,22 @@
+import urllib.request
+#Fragt alle Informationen ab
+nickname = input("Geben Sie jetzt bitte ein wie sie genannt werden wollen:")
+raumname = input("Hallo, geben Sie bitte den Raumnamen ein, welchem Sie beitreten wollen:")
+print("Raumname: "+ raumname)
+print("--------------")
+print("Chatverlauf:")
+i = 0
+#Eine einfache while Schleife damit man mehrere Nachrichten eingeben kann
+while i < 2:
+	#Holt sich den aktuellen Chatverlauf von der URL
+	raumtext = urllib.request.urlopen("http://public-chat-api.glitch.me/get?room="+raumname)
+	#Gibt ihn aus
+	for line in raumtext:
+		decoded_line = line.decode("utf-8")
+		print(decoded_line)
+	print("------------")
+	#Fragt die Nachricht ab die der Benutzer senden möchte
+	text = input("Geben Sie jetzt bitte ihre Nachricht ein:")
+	#Ruft die Api auf um die Nachricht zu senden
+	msg = urllib.request.urlopen("http://public-chat-api.glitch.me/send?room="+raumname+"&author="+nickname+"&text="+text)
+	#Wegen der immer erfüllten while fängt es wieder von vorne an
