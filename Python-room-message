@@ -17,6 +17,9 @@ while i < 2:
 	print("------------")
 	#Fragt die Nachricht ab die der Benutzer senden möchte
 	text = input("Geben Sie jetzt bitte ihre Nachricht ein:")
+	#Ersetzt alle Leerzeichen weil es sonst probleme gibt
+	text_neu = text.replace(' ', '%20')
+	print(text_neu)
 	#Ruft die Api auf um die Nachricht zu senden
-	msg = urllib.request.urlopen("http://public-chat-api.glitch.me/send?room="+raumname+"&author="+nickname+"&text="+text)
+	msg = urllib.request.urlopen("http://public-chat-api.glitch.me/send?room="+raumname+"&author="+nickname+"&text="+text_neu)
 	#Wegen der immer erfüllten while fängt es wieder von vorne an
